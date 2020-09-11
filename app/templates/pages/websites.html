@@ -1,0 +1,80 @@
+{% extends "pages/base.html" %}
+{% block title %}Websites{% endblock  %}
+{% block active%}
+{% if not user.username %}
+    <form class="form-inline my-2 my-lg-0">
+    <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href='/login'>Đăng nhập</a>
+    <a class="btn btn-outline-success my-2 my-sm-0 " href = '/register'>Đăng ký</a>
+    
+</form>
+{% else %}
+<div class="my-2 my-sm-0 mr-3 " href='#'>
+    <img src="img/person.jpeg" alt="" class="avatar mr-2">
+    <div class="dropdown d-inline-block ">
+        <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome {{user.username}}
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href = "{%url 'logout'%}">Logout</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+{%endblock%}
+{% block content  %}
+<section class="websites">
+    <div class="d-flex mt-5" id="wrapper">
+        {% include 'partials/_sidebar.html' %}
+        <!-- Page Content -->
+        <div id="page-content-wrapper" class="mb-3">
+            <br>
+            <div class="websites__action mb-5">
+                <form class="search__website mx-5">
+                    <div class="form-group d-flex">
+                        <input type="text" class="form-control" placeholder="Key words">
+                        <input type="submit" class="btn btn-primary" value="Search">
+                    </div>
+                </form>
+                <form class="add__website mx-5">
+                    <div class="form-group d-flex">
+                        <input type="text" class="form-control" placeholder="www.example.com">
+                        <input type="submit" class="btn btn-grey" value="Add Website">
+                    </div>
+                </form>
+            </div>
+            <div class="card card-website d-inline-block p-2 ml-5 mt-3">
+                <div class="card-website__head d-flex justify-content-around">
+                    <div class="card-website__name">
+                        Test website
+                    </div>
+                    <div class="card-website__id">
+                        ID: 00120023044
+                    </div>
+                </div>
+                <div class="card-website__body d-flex justify-content-around">
+                    <a href="www.test.com" class="card-website__link">
+                        www.test.com
+                    </a>
+                    <div class="card-website__date">
+                        Add: 15/06/2019
+                    </div>
+                </div>
+                <div class="card-website__action mt-3">
+                    <button class="btn btn-sm m-1 btn-primary"><i class="fas fa-tv mr-1"></i>Monitor</button>
+                    <button class="btn btn-sm m-1 btn-primary"><i class="fas fa-stop-circle mr-1"></i>Stop</button>
+                    <!-- <button class="btn btn-success"><i class="fas fa-play-circle mr-1"></i>Run</button> -->
+                    <button class="btn btn-sm m-1 btn-warning"><i class="fas fa-edit mr-1"></i>Edit</button>
+                    <button class="btn btn-sm m-1 btn-danger"><i class="far fa-trash-alt mr-1"></i>Delete</button>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+</section>
+
+{% endblock %}
+{% block script %} {% endblock %}

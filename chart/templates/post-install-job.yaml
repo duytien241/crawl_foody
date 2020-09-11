@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{.Release.Name}}"
+  labels:
+    heritage: {{.Release.Service | quote }}
+    release: {{.Release.Name | quote }}
+    chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": hook-succeeded,hook-failed
+spec:
+  template:
+    metadata:
+      name: "{{.Release.Name}}"
+      labels:
+        heritage: {{.Release.Service | quote }}
+        release: {{.Release.Name | quote }}
+        chart: "{{.Chart.Name}}-{{.Chart.Version}}"
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+{{ toYaml .Values.image.secrets | indent 10 }}
+      containers:
+      - name: post-install-job
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["./bin/run_migrate.sh"]
+        ports:
+        - name: "{{ .Values.service.name }}"
+          containerPort: {{ .Values.service.internalPort }}
+        env:
+        {{ if eq .Values.postgresql.enabled true }}
+        - name: DATABASE_URL
+          value: {{ .Values.application.database_url | quote }}
+        {{ else }}
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}
+              key: database-url
+        {{ end }}
+        {{ if eq .Values.redis.enabled true }}
+        - name: REDIS_HOST
+          value: {{ template "webping.redis.fullname" . }}
+        - name: REDIS_PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "webping.redis.fullname" . }}
+              key: redis-password
+        {{ else }}
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: {{ template "fullname" . }}
+              key: redis-url
+        {{ end }}
+        - name: WEBPING_ENV
+          value:  {{ .Values.application.env }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}

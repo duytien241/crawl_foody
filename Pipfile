@@ -1,0 +1,32 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+flake8 = "*"
+mypy = "*"
+yapf = "*"
+autopep8 = "*"
+
+[packages]
+django = "*"
+logzero = "*"
+dj-database-url = "*"
+celery = "*"
+gunicorn = "*"
+redis = "*"
+psycopg2-binary = "*"
+sentry-sdk = "*"
+pillow = "*"
+beautifulsoup4 = "*"
+requests = "*"
+selenium = "*"
+diff-match-patch = "*"
+numpy = "*"
+opencv-contrib-python-headless = "*"
+django-bower = "*"
+whitenoise = "*"
+
+[requires]
+python_version = "3.6"

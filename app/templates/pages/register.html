@@ -1,0 +1,232 @@
+{% extends "pages/base.html" %}
+{% block title %}Đăng ký{% endblock  %}
+{% block active%}
+<form class="form-inline my-2 my-lg-0">
+    <a class="btn btn-outline-success my-2 my-sm-0 mr-3 " href='/login'>Đăng nhập</a>
+    <a class="btn btn-outline-success my-2 my-sm-0 active " href = '/register'>Đăng ký</a>
+</form>
+{%endblock%}
+{%block styleBody%}
+style="background-color: #f8f8f8;"
+{%endblock%}
+{% block content  %}
+<form action="." id="register-form" method ='POST' style="font-size:14px;" >
+    <div class ="container mt-5 " >
+        <div style="height:20px;">
+        </div>
+        <div class = "row justify-content-center align-items-center">
+            
+            <div class="col-lg-7"> 
+                <div class ="card ">
+                    </br>
+                    <div class=" text-center">
+                    <h5>Đăng ký tài khoản</h5>
+                    </div>
+                    <div class="col-lg-10 mx-auto">
+                        <hr />
+                    </div>
+                    {% csrf_token %}
+                    <div class="row border-primary d-flex justify-content-center align-items-center">
+                        <div class = "col-lg-9 row">
+                            {% if form.email.errors %}
+                                    <div class = " col-lg-12"> 
+                                        <div class="alert alert-danger ">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        <strong>{{form.email.errors|striptags}}</strong>
+                                        </div>
+                                    </div>  
+                                {% else %}
+                            {% endif %}
+                            {% if  form.password2.errors %}
+                                    <div class = " col-lg-12"> 
+                                        <div class="alert alert-danger ">
+                                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                        {%for errors in form.password2.errors%}
+                                            <h6 class = "font-weight-bold">{{errors|striptags  }}</h6>
+                                        {%endfor%}
+                                        </div>
+                                    </div>  
+                                {% else %}
+                            {% endif %}
+                            <div class="col-sm-6 ">
+                            <div class="form-group">
+                            
+                            <label for="" id = "tfirstname"><h6>Họ: *</h6></label>
+                            {{form.first_name}}
+                            <small id = "tfirstname2"></small>
+                            </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                <label for="" id = "tlastname"><h6>Tên: *</h6></label>
+                                {{form.last_name}}
+                                <small id = "tlastname2"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                <label for="" id ="txemail"><h6>Email: *</h6></label>
+                                {{form.email}}
+                                <small id = "temail" class = "temail"></small>
+                                </div>
+                                
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                <label for="password1"><h6>Mật khẩu: *</h6></label>
+                                {{form.password1}}
+                                <small id = "tpass1" class = "tpass1"></small>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                <label for="password2"><h6>Nhập lại mật khẩu: *</h6></label>
+                            {{form.password2}}
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mt-2 text-center">
+                            <input type="submit" id="dangky" class= "btn btn-success btn-block" value="Đăng ký tài khoản" name="dangky"/>
+                            </div>      
+                            <div class="col-lg-12 text-center">
+                                <hr>
+                                <p>Khi đăng ký là bạn đã đồng ý với <a href="#"> điều khoản</a> của chúng tôi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+ </form>
+ <footer class="page-footer ">
+<div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a href="#"> CSOC</a>
+</div>
+</footer>
+{%endblock%}
+{% block script %}
+    <script>
+    window.onload = function(){
+        firstname = document.getElementById('id_first_name').value;
+        lastname = document.getElementById('id_last_name').value;
+        email = document.getElementById('id_email').value;
+        if(firstname.length != 0) isValid[0] = 1;
+        if(lastname.length != 0) isValid[1] = 1;
+        if(email.length != 0) isValid[2] = 1;
+        validateForm();
+    }
+    var isValid = [0,0,0,0,0];
+    $('#id_first_name').keyup(function(){
+        var firstname = document.getElementById('id_first_name').value;
+        if(firstname.length < 2 || !((firstname >='a' &&firstname <='z')||(firstname >='A' &&firstname <='Z'))){
+            document.getElementById('tfirstname').style.color = "red";
+            document.getElementById('tfirstname2').style.color = "red";
+            isValid[0]=0;
+            validateForm();
+        }
+        else {
+            document.getElementById('tfirstname').style.color = "black";
+            document.getElementById('tfirstname2').style.color = "black";
+            isValid[0] = 1;
+            validateForm();
+        }
+    });
+    $('#id_last_name').keyup(function(){
+        var lastname = document.getElementById('id_last_name').value;
+        if(lastname.length <2 || !((lastname >='a' &&lastname <='z')||(lastname >='A' &&lastname <='Z'))){
+            document.getElementById('tlastname').style.color = "red";
+            document.getElementById('tlastname2').style.color = "red";
+            isValid[1]=0;
+            validateForm();
+        }
+        else {
+            document.getElementById('tlastname').style.color = "black";
+            document.getElementById('tlastname2').style.color = "black";
+            isValid[1] = 1;
+            validateForm();
+        }
+    });
+    $('#id_email').keyup(function(){
+         var email = document.getElementById('id_email'); 
+        if(email.value.length){
+            var email = document.getElementById('id_email'); 
+            var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/; 
+            var vnf_regex = /((09|03|07|08|05)+([0-9]{8})\b)/g;
+            if (!filter.test(email.value) && !vnf_regex.test(email.value)) { 
+                document.getElementById('txemail').style.color = "red";
+                isValid[2]=0;
+                validateForm();
+            }
+            else{ 
+                document.getElementById('temail').innerHTML = "";
+                document.getElementById('txemail').style.color = "black";
+                isValid[2] = 1;
+                validateForm();
+            } 
+        }
+    });
+    $('#id_password1').keyup(function(){
+        re = /^\w+$/;
+        var password1 = document.getElementById('id_password1').value;
+        var password2 = document.getElementById('id_password2').value;
+        if(!re.test(password1) && password1.length >0 ){
+            document.getElementById('tpass1').style.color = "red";
+            document.getElementById('tpass1').innerHTML= "Mật khẩu chỉ chứa kí tự alpha";
+            isValid[3]=0;
+            validateForm();
+        }
+        else if(password2 != password1 && password2.length > 1 && password1.length >0){
+            document.getElementById('tpass1').style.color = "red";
+            document.getElementById('tpass1').innerHTML= "Hai mật khẩu không giống nhau";
+            isValid[3]=0;
+            validateForm();
+        }
+        else if(password1.length<8 ){
+            document.getElementById('tpass1').style.color = "red";
+            document.getElementById('tpass1').innerHTML= "Mật khẩu không thể ít hơn 8 kí tự.";
+            isValid[3]=0;
+            validateForm();
+        }
+        else if(password2 == password1 && password2.length >=8 && password1.length >=8){
+            isValid[3] = 1;
+            isValid[4] = 1;
+            validateForm();
+            document.getElementById('tpass1').innerHTML= "";
+        }
+        else document.getElementById('tpass1').innerHTML= "";
+    });
+    $('#id_password2').keyup(function(){
+        var password1 = document.getElementById('id_password1').value;
+        var password2 = document.getElementById('id_password2').value;
+        if(password2 != password1 && password1.length > 1 && password2.length !=0){
+            document.getElementById('tpass1').style.color = "red";
+            document.getElementById('tpass1').innerHTML= "Hai mật khẩu không giống nhau";
+            isValid[4]=0;
+            validateForm();
+        }  
+        else  if(password2 == password1 && password2.length <8 ){
+            document.getElementById('tpass1').style.color = "red";
+            document.getElementById('tpass1').innerHTML= "Mật khẩu không thể ít hơn 8 kí tự.";
+            isValid[4]=0;
+            validateForm()
+        }
+        else  if(password2 == password1 && password2.length >=8 && password1.length >=8){
+            document.getElementById('tpass1').innerHTML= "";
+            isValid[3] = 1;
+            isValid[4] = 1;
+            validateForm();
+        }
+    });
+    function validateForm()
+    {
+        if( isValid[0] == 1 && isValid[1] == 1 && isValid[2] == 1 && isValid[3] == 1 && isValid[4] == 1 ) {
+             document.getElementById("dangky").disabled = false;
+        }
+        else {
+            document.getElementById("dangky").disabled = true;
+        }
+    }
+    </script>
+{% endblock  %}
+

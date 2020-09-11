@@ -1,0 +1,127 @@
+{% extends "pages/base.html" %}
+
+{% block title %}Trang chủ{% endblock  %}
+
+{% block active%}
+{% if not user.username %}
+<form class="form-inline my-2 my-lg-0">
+    <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href='/login'>Đăng nhập</a>
+    <a class="btn btn-outline-success my-2 my-sm-0 " href = '/register'>Đăng ký</a>
+</form>
+
+{% else %}
+<div class="my-2 my-sm-0 mr-3 " href='#'>
+    <img  alt="" class="avatar mr-2">
+    <div class="dropdown d-inline-block ">
+        <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome {{user.last_name}}
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href = "{%url 'logout'%}">Logout</a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{%endblock%}
+{% block navbar %}
+{% if not user.username %}
+<br><br><br><br><br><br><br><br><br><br><br><br>
+{% else %}
+<div class="d-flex mt-4" id="wrapper">
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action bg-light mt-2"><i
+                        class="far fa-bell mr-3"></i>Notifications</a>
+                <a href="/websites" class="list-group-item list-group-item-action bg-light"><i
+                        class="far fa-file-alt mr-3"></i>Websites</a>
+                <a href="/manageaddress" class="list-group-item list-group-item-action bg-light"><i class="fas fa-address-book mr-3"></i>Kênh thông báo</a>
+            </div>
+        </div>
+{% endif %}
+{% endblock navbar %}
+{% block content %}
+    <section class="websites">
+    
+        <div id="page-content-wrapper" class="mb-3 ml-5 mt-5">
+            <p>Đang được xây dựng</p>
+        </div>
+    
+    </section>
+
+</div>
+
+{% endblock %}
+{% if not user.username %}
+{% block Footer%}
+<footer class="page-footer font-small bg-dark pt-4 text-light border-top border-ligh navbar-fixed-bottom">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-6 mt-md-0 mt-3">
+                    <h5 class="text-uppercase">WebPing</h5>
+                    <p>Website cung cấp giải pháp an toàn cho trang web của bạn.Là sản phẩm đang trong quá trình thử nghiệm và không ngừng nâng cấp. Để giúp bạn có những trải nghiệm tốt nhất, bất cứ ý kiến nào có thể liên hệ với chúng tôi.</p>
+                </div>
+                <hr class="clearfix w-100 d-md-none pb-3">
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase">About us</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#!">Giới thiệu</a>
+                        </li>
+                        <li>
+                            <a href="#!">Giấy phép</a>
+                        </li>
+                        <li>
+                            <a href="#!">Điều khoản</a>
+                        </li>
+                        <li>
+                            <a href="#!">Ứng dụng liên quan</a>
+                        </li>
+                        <li>
+                            <a href="#!">Góp ý</a>
+                        </li>
+                    </ul>
+
+                </div>
+                <div class="col-md-3 mb-md-0 mb-3">
+                    <h5 class="text-uppercase">Contact</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <i class="fas fa-home mr-3"></i> Số 1, Phạm Văn Bạch, Cầu Giấy, Hà Nội</p>
+                        </li>
+                        <li>
+                            <i class="fas fa-envelope mr-3"></i> CSOC@fpt.com</p>
+                        </li>
+                        <li>
+                            <i class="fas fa-phone mr-3"></i> + 0123456789</p>
+                        </li>
+                        <li>
+                            <i class="fab fa-facebook-f mr-3"></i> <a href="#">WebPing</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr/>
+        <div class="footer-copyright text-center py-3">© 2019 Copyright:
+            <a href="#"> CSOC</a>
+        </div>
+    </footer>
+{% endblock%}
+{% else %}
+{% endif %}
+{% block script %}
+<script>
+$(document).ready(function() {
+ // executes when HTML-Document is loaded and DOM is ready
+ console.log(document.documentElement.clientHeight);
+ console.log(document.body.offsetHeight);
+ console.log(document.body.scrollHeight);
+ console.log(document.documentElement.clientHeight);
+});
+
+</script>
+{% endblock script %}   

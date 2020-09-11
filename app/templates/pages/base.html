@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <title> {% block title %} {% endblock %}</title>
+    {% block css %}{% endblock %}
+</head>
+
+<body {% block styleBody %} {% endblock %}>
+    <nav class="navbar fixed-top  navbar-expand-sm navbar-light bg-dark border-bottom border-secondary">
+        <a class="navbar-brand text-light mb-2" id="menu-toggle" href="#"><span class="text-white" style="font-size:20px">Web</span><span class="text-success" style="font-size:20px">ping</span></a>
+        <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+        <div class="collapse navbar-collapse " id="collapsibleNavId">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0 ">
+                <li class="nav-item ">
+                    <a class="nav-link text-light" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" href="#">Landing page</a>
+                </li>
+
+            </ul>
+             {% block active %} {% endblock %}
+            
+        </div>
+    </nav>
+    <br/>
+    {%block navbar%} {%endblock%}
+    {% block content %} {% endblock %}
+    <!-- Footer -->
+    {%block Footer%} {%endblock%}
+<script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'popper.js/dist/popper.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'chart.js/dist/Chart.min.js' %}"></script>
+<script src="{% static 'fontawesome/js/all.min.js' %}"></script>
+{% block script %} {% endblock %}
+<script>
+$(document).ready( function(){
+    
+    $('.overlay').click(function(){
+        document.getElementsByClassName("overlay")[0].style.display = "none";
+    });
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+        if($('.overlay').css('display') == 'none'){
+            $('.overlay').show();
+        }
+        else{
+            $('.overlay').hide();
+        }
+      
+    });
+});
+</script>
+</body>
+</html>

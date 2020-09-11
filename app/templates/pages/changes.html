@@ -1,0 +1,361 @@
+{% extends "pages/base.html" %}
+{% load static %}
+{% block title %}Thay đổi{% endblock  %}
+{% block css %}
+   <link rel="stylesheet" type="text/css" href="{% static 'css/changes.css' %}">
+{% endblock %}
+
+{% block active%}
+<div class="my-2 my-sm-0 mr-3 " href='#'>
+    <img src="" alt="" class="avatar mr-2">
+    <div class="dropdown d-inline-block ">
+        <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Welcome {{user.last_name}}
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Profile</a>
+            <a class="dropdown-item" href = "{%url 'logout'%}">Logout</a>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
+{% block navbar %}
+{% if not user.username %}
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<h1>Đang được xây dựng</h1>
+{% else %}
+<div class="d-flex mt-4" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="list-group list-group-flush" id="overlay">
+                <a href="#" class="list-group-item list-group-item-action bg-light mt-2"><i
+                        class="far fa-bell mr-3"></i>Notifications</a>
+                <a href="/websites" class="list-group-item list-group-item-action bg-light"><i
+                        class="far fa-file-alt mr-3"></i>Websites</a>
+                <a href="/manageaddress" class="list-group-item list-group-item-action bg-info active"><i class="fas fa-address-book mr-3"></i>Kênh thông báo</a>
+            </div>
+    </div>
+
+{% endif %}
+{% endblock navbar %}
+{% block content %}
+
+<div class = "container mt-3">
+<div class= "row mb-3 mt-3">
+    <div class="col-xl-4">
+        Chi tiết thay đổi của website vào lần quét:
+    </div>
+    <div class="col-xl-4">
+        <div class="form-group">
+          <select class="form-control form-control-sm" name="" id="version_view">
+            {% for data_c in datas  %}
+                <option {% if data.id == data_c.id %} selected{% endif %} value="{{data_c.data_crawl_id}}" >{{data_c.timeCrawl}}</option>
+            {% endfor %}
+          </select>
+        </div>
+    </div>
+</div>
+<hr/>
+<ul class="nav nav-tabs" id="optiontab">
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#source">Source code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#text" >Text</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link " data-toggle="tab" href="#directions">Điều hướng</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#image" >Hình ảnh</a>
+  </li>
+  <li class="nav-item" hidden id="{{active}}">
+    <a class="nav-link active" data-toggle="tab" href="#hidde" >Tab ẩn</a>
+  </li>
+</ul>
+<div class ="row d-flex justify-content-end" id = "optionview">
+    <div class="col-xl-2 mt-3">
+        <div class="form-group">
+            <select class="form-control" name="view_compare" id="view_compare">
+                <option value = "1" >Xem toàn bộ</option>
+                <option value = "2" >Chỉ những thay đổi</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xl-2 mt-3">
+        <div class="form-group">
+            <select class="form-control" name="option_compare" id="option_compare">
+                <option value = "1">Song song</option>
+                <option value = "2" >Trên 1 bản ghi</option>
+            </select>
+        </div>
+    </div>
+</div>
+<div class="tab-content mb-5 container" id="tab_content" >
+  <div class="tab-pane" id="source">
+    <div class="row">
+        <div class ="col-xl-12 border">
+            <div class="row" id="content_source">
+                <div class ="col-xl-12 border">
+                    <pre>{{data.source_changes | safe | escape}}</pre>
+                </div>   
+                <div class ="col-xl-12 border">
+                    <pre>{{data.source_compare | safe | escape}}</pre>
+                </div>   
+                <div class = "col-lg-6 border" style ="word-break: break-all;">
+                    <p>{{data.source_old | safe | escape}}</p>
+                </div>
+                <div class = "col-lg-6 border" style ="word-break: break-all;">
+                    <p>{{data.source_new | safe | escape}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="text">
+    <div class="row">
+        <div class ="col-xl-12 border">
+            <div class="row" id="content_text" >
+                <div class ="col-xl-12 border">
+                    <p>{{data.text_changes | safe | escape| linebreaks}}</p>
+                </div>   
+                <div class ="col-xl-12 border">
+                    <p>{{data.text_compare | safe | escape| linebreaks}}</p>
+                </div>   
+                <div class = "col-lg-6 border" style ="word-break: break-all;">
+                    <p>{{data.text_old | safe | escape| linebreaks}}</p>
+                </div>
+                <div class = "col-lg-6 border" style ="word-break: break-all;">
+                    <p>{{data.text_new | safe | escape| linebreaks}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="directions">
+    <div class="row">
+        <div class ="col-xl-12 border">
+            <div class="row" id="content_directions" >
+                <div class ="col-xl-12 border">
+                    <pre>{{data.directions_changes | safe | escape }}</pre>
+                </div>   
+                <div class ="col-xl-12 border">
+                    <pre>{{data.directions_compare | safe | escape }}</pre>
+                </div>   
+                <div class = "col-lg-6 border" style ="word-break: break-all;">
+                    <p>{{data.directions_old | safe | escape}}</p>
+                </div>
+                <div class = "col-lg-6 border" style ="word-break: break-all;">
+                    <p>{{data.directions_new | safe | escape}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="image">
+    <div class="row">
+        <div class="col-xl-12" id= "content_img">
+        <div class="ba-slider">
+            <img src="{% static data.img_screen %}" />
+        <div class="resize">
+            <img src="{% static data.img_old %}"/>
+        </div>
+        <span class="handle"></span>
+        </div>
+        <div class = "ba-slider">
+            <img src="{% static data.image_changes %}" />
+        </div>
+        </div>
+    </div>
+  </div>
+  <div class="tab-pane" id="hidde">
+    <div class="row">
+        <div class ="col-xl-12 border">
+        <br><br><br><br><br><br><br>
+            <div id="cover"></div>
+        </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+{% endblock %}
+{% block script %}
+<script>
+ $( window ).resize(function() {
+    if ($(window).width() <= 768){
+        $('#overlay').addClass('overlay')
+    }
+    else{
+        document.getElementsByClassName("overlay")[0].style.display = "block";
+        $('#overlay').removeClass('overlay')
+    }
+    });
+$(document).ready( function(){
+    if ($(window).width() <= 768){
+        $('#overlay').addClass('overlay')
+    }
+    else{
+        
+        $('#overlay').removeClass('overlay')
+    }
+    $('.overlay').click(function(){
+        document.getElementsByClassName("overlay")[0].style.display = "none";
+    });
+     $("#menu-toggle").click(function(e) {
+      e.preventDefault();
+      if ($(window).width() <= 768){
+        if($('.overlay').css('display') == 'none'){
+            $('.overlay').show();
+        }
+        else{
+            $('.overlay').hide();
+        }
+      }
+    });
+    $('#version_view').change(function(){
+        window.location.href = $('#version_view option:selected').val()
+    });
+    $('.ba-slider').each(function(){
+    var cur = $(this);
+    var width = '1080px';
+    cur.find('.resize img').css('width', width);
+    drags(cur.find('.handle'), cur.find('.resize'), cur);
+    });
+    HideShowContent();
+    var active = $('#optiontab li:eq(4)').attr('id') -1
+    if(active == 3){
+       $('#view_compare').attr("disabled", true);   
+    }
+    $('#optiontab li:eq('+active+') a').addClass('active')
+    setTimeout(function(){
+        $('#tab_content .tab-pane:eq('+active+')').addClass('active')
+    },500)
+
+    $('#content_img div:eq(2)').hide()
+    $('#view_compare').change(function(){
+        var tab = $('#optiontab .active').attr("href")
+        if($('#view_compare option:selected').val()==1){
+            $('#option_compare').removeAttr("disabled");
+            if($('#option_compare option:selected').val() ==2){
+               HideShowContent(1)
+            }
+            else{
+               HideShowContent()
+            }
+        }
+        else{
+            $('#option_compare').attr("disabled", true);
+            HideShowContent(2)
+        }
+    })
+    $('#option_compare').change(function(){
+        if($('#option_compare option:selected').val()==1){
+           HideShowContent()
+           $('#content_img div:eq(0)').show()
+           $('#content_img div:eq(2)').hide()
+        }
+        else{
+           HideShowContent(1)
+           $('#content_img div:eq(2)').show()
+           $('#content_img div:eq(0)').hide()
+        }
+    })
+    $("#optiontab li a").click(function() {
+        if($(this).attr('href') == '#image'){
+            $('#view_compare').attr("disabled", true);
+        }
+        else{
+            $('#view_compare').removeAttr("disabled");
+        }
+
+    });
+    
+});
+
+function HideShowContent(option = 0){
+    var tab = ['#content_source', '#content_text', '#content_directions'];
+    if(option == 0){
+        for (var i in tab){
+            $(tab[i] + ' div:eq(0)').hide()
+            $(tab[i] + ' div:eq(1)').hide()
+            $(tab[i] + ' div:eq(2)').show()
+            $(tab[i] + ' div:eq(3)').show()
+        }
+    }
+    else if(option == 1){
+        for (var i in tab){
+            $(tab[i] + ' div:eq(0)').hide()
+            $(tab[i] + ' div:eq(1)').show()
+            $(tab[i] + ' div:eq(2)').hide()
+            $(tab[i] + ' div:eq(3)').hide()
+        }
+    }
+    else if(option == 2){
+        for (var i in tab){
+            $(tab[i] + ' div:eq(0)').show()
+            $(tab[i] + ' div:eq(1)').hide()
+            $(tab[i] + ' div:eq(2)').hide()
+            $(tab[i] + ' div:eq(3)').hide()
+        }
+    }
+    else if(option == 4){
+        for (var i in tab){
+            $(tab[i] + ' div:eq(0)').hide()
+            $(tab[i] + ' div:eq(1)').hide()
+            $(tab[i] + ' div:eq(2)').hide()
+            $(tab[i] + ' div:eq(3)').hide()
+        }
+    }
+}
+$(window).resize(function(){
+  $('.ba-slider').each(function(){
+    var cur = $(this);
+    var width = cur.width()+'px';
+    cur.find('.resize img').css('width', width);
+  });
+});
+
+function drags(dragElement, resizeElement, container) {
+   dragElement.on('mousedown touchstart', function(e) {
+    dragElement.addClass('draggable');
+    resizeElement.addClass('resizable');
+    var startX = (e.pageX) ? e.pageX : e.originalEvent.touches[0].pageX;
+    var dragWidth = dragElement.outerWidth(),
+        posX = dragElement.offset().left + dragWidth - startX,
+        containerOffset = container.offset().left,
+        containerWidth = container.outerWidth();
+    minLeft = containerOffset + 10;
+    maxLeft = containerOffset + containerWidth - dragWidth - 10;
+    dragElement.parents().on("mousemove touchmove", function(e) {
+      var moveX = (e.pageX) ? e.pageX : e.originalEvent.touches[0].pageX;
+      leftValue = moveX + posX - dragWidth;
+      if ( leftValue < minLeft) {
+        leftValue = minLeft;
+      } else if (leftValue > maxLeft) {
+        leftValue = maxLeft;
+      }
+      widthValue = (leftValue + dragWidth/2 - containerOffset)*100/containerWidth+'%';
+      $('.draggable').css('left', widthValue).on('mouseup touchend touchcancel', function () {
+        $(this).removeClass('draggable');
+        resizeElement.removeClass('resizable');
+      });
+      $('.resizable').css('width', widthValue);
+    }).on('mouseup touchend touchcancel', function(){
+      dragElement.removeClass('draggable');
+      resizeElement.removeClass('resizable');
+    });
+    e.preventDefault();
+  }).on('mouseup touchend touchcancel', function(e){
+    dragElement.removeClass('draggable');
+    resizeElement.removeClass('resizable');
+  });
+}
+
+
+
+</script>
+{% endblock script %}   
