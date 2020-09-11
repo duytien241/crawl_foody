@@ -28,31 +28,34 @@ def crawl_web(uri_id):
             website = None
         if website is None:
             return
-        chrome_options = Options()
-        chrome_options.add_argument(settings.ENABLE_OVERLAY_SCROLLBAR)
-        chrome_options.add_argument("--window-size=%s" % settings.WINDOW_SIZE)
-        chrome_options.add_argument("start-maximized")
-        chrome_options.add_argument("enable-automation")
-        chrome_options.add_argument("--no-sandbox")
-        chrome_options.add_argument("--disable-extensions")
-        chrome_options.add_argument("--dns-prefetch-disable")
-        chrome_options.add_argument("--disable-gpu")
-        # Setup webdriver selenium use Chrome.
-        # Download Webdriver for Chrome and make sure that
-        # the same version of Chrome is installed on your machine.
-        driver = webdriver.Chrome(
-            ChromeDriverManager().install(), chrome_options=chrome_options)
-        driver.get(website.uri)
-        # disable position fixed and sticky for screenshot
-        driver.execute_script('''
-        x=document.querySelectorAll('*');
-        for(i=0;i<x.length;i++){
-            elementStyle=getComputedStyle(x[i]);
-            if(elementStyle.position=="fixed"||elementStyle.position=="sticky")
-            {x[i].style.position="absolute";}}''')
         if first_time:
-            time.sleep(100)
+            chrome_options = Options()
+            chrome_options.add_argument(settings.ENABLE_OVERLAY_SCROLLBAR)
+            chrome_options.add_argument(
+                "--window-size=%s" % settings.WINDOW_SIZE)
+            chrome_options.add_argument("start-maximized")
+            chrome_options.add_argument("enable-automation")
+            chrome_options.add_argument("--no-sandbox")
+            chrome_options.add_argument("--disable-extensions")
+            chrome_options.add_argument("--dns-prefetch-disable")
+            chrome_options.add_argument("--disable-gpu")
+            # Setup webdriver selenium use Chrome.
+            # Download Webdriver for Chrome and make sure that
+            # the same version of Chrome is installed on your machine.
+            driver = webdriver.Chrome(
+                ChromeDriverManager().install(), chrome_options=chrome_options)
+            driver.get(website.uri)
+            # disable position fixed and sticky for screenshot
+            driver.execute_script('''
+            x=document.querySelectorAll('*');
+            for(i=0;i<x.length;i++){
+                elementStyle=getComputedStyle(x[i]);
+                if(elementStyle.position=="fixed"||elementStyle.position=="sticky")
+                {x[i].style.position="absolute";}}''')
+            time.sleep(1)
             first_time = False
+        else:
+            driver.get(website.uri)
         time.sleep(1)
         source = WebSourceCode(website)
         fullpage_screenshot(driver, website.id)
@@ -195,6 +198,9 @@ def crawl_store(driver, uri, name=None, tradmark=None):
         city = soup.find('span',  {"itemprop": "addressRegion"})
         if city:
             cityName = city.text.strip()
+        descript = soup.find(class_="category")
+        if descript:
+            restaurant.description = descript.getText(separator=u' ')
         category = soup.find(class_="category-items")
         if category:
             restaurant.description = category.getText(separator=u' ')
@@ -241,71 +247,71 @@ def crawl_store(driver, uri, name=None, tradmark=None):
         if tradmark:
             restaurant.tradmark = tradmark
             tradmark
-    if rating:
+    if rating and Restaurant.objects.filter(uri=restaurant.uri).count() == 0:
         if rating.text.strip() == '_._':
             restaurant.rating = 5
         else:
             restaurant.rating = float(rating.text.strip())
         restaurant.save()
-    loadmore = soup.find(class_="view-all-menu")
-    if loadmore:
-        direct = loadmore.find('a', href=True)
-        if direct:
-            driver.get(direct['href'])
-            time.sleep(2)
-            elem2 = driver.find_element_by_xpath("//html")
-            source_code2 = elem2.get_attribute("outerHTML")
-            soup2 = BeautifulSoup(source_code2, 'lxml')
-            items = soup2.find_all(class_="item-restaurant-row")
-            for item in items:
-                menuRes = Menu()
-                imgCard = item.find(class_="item-restaurant-img")
-                if imgCard:
-                    img = imgCard.find('img', src=True)
-                    if img:
-                        menuRes.image_url = img['src']
-                name = item.find(class_="item-restaurant-name")
-                if name:
-                    menuRes.name = name.text.strip()
-                description = item.find(class_="item-restaurant-desc")
-                if description:
-                    menuRes.description = description.text.strip()
-                price = item.find(class_="current-price")
-                if price:
-                    menuRes.price = price.text.strip()
-                menuRes.restaurant = restaurant
-                if name and len(name.text.strip()) > 0:
-                    menuRes.save()
-    else:
-
-        if menu:
-            link = urllib.parse.urljoin(uri, menu['href'])
-            driver.get(link)
-            time.sleep(2)
-            elem2 = driver.find_element_by_xpath("//html")
-            source_code2 = elem2.get_attribute("outerHTML")
-            soup2 = BeautifulSoup(source_code2, 'lxml')
-            items = soup2.find_all(class_="microsite-menu-item")
-            for item in items:
-                menuRes = Menu()
-                imgCard = item.find(class_="thumb-dish")
-                if imgCard:
-                    img = imgCard.find('img', src=True)
-                    if img:
-                        menuRes.image_url = img['src']
-                name = item.find(class_="dish-name")
-                if name:
-                    menuRes.name = name.text.strip()
-                price = item.find(class_="price")
-                if price:
-                    menuRes.price = price.text.strip()
-                menuRes.restaurant = restaurant
-                if name and len(name.text.strip()) > 0:
-                    menuRes.save()
-
-        # items = soup.find_all( class_="delivery-dishes-item")
+        loadmore = soup.find(class_="view-all-menu")
+        if loadmore:
+            direct = loadmore.find('a', href=True)
+            if direct:
+                driver.get(direct['href'])
+                time.sleep(2)
+                elem2 = driver.find_element_by_xpath("//html")
+                source_code2 = elem2.get_attribute("outerHTML")
+                soup2 = BeautifulSoup(source_code2, 'lxml')
+                items = soup2.find_all(class_="item-restaurant-row")
+                for item in items:
+                    menuRes = Menu()
+                    imgCard = item.find(class_="item-restaurant-img")
+                    if imgCard:
+                        img = imgCard.find('img', src=True)
+                        if img:
+                            menuRes.image_url = img['src']
+                    name = item.find(class_="item-restaurant-name")
+                    if name:
+                        menuRes.name = name.text.strip()
+                    description = item.find(class_="item-restaurant-desc")
+                    if description:
+                        menuRes.description = description.text.strip()
+                    price = item.find(class_="current-price")
+                    if price:
+                        menuRes.price = price.text.strip()
+                    menuRes.restaurant = restaurant
+                    if name and len(name.text.strip()) > 0:
+                        menuRes.save()
         else:
-            get_menu(soup, "delivery-dishes-item", restaurant)
+
+            if menu:
+                link = urllib.parse.urljoin(uri, menu['href'])
+                driver.get(link)
+                time.sleep(2)
+                elem2 = driver.find_element_by_xpath("//html")
+                source_code2 = elem2.get_attribute("outerHTML")
+                soup2 = BeautifulSoup(source_code2, 'lxml')
+                items = soup2.find_all(class_="microsite-menu-item")
+                for item in items:
+                    menuRes = Menu()
+                    imgCard = item.find(class_="thumb-dish")
+                    if imgCard:
+                        img = imgCard.find('img', src=True)
+                        if img:
+                            menuRes.image_url = img['src']
+                    name = item.find(class_="dish-name")
+                    if name:
+                        menuRes.name = name.text.strip()
+                    price = item.find(class_="price")
+                    if price:
+                        menuRes.price = price.text.strip()
+                    menuRes.restaurant = restaurant
+                    if name and len(name.text.strip()) > 0:
+                        menuRes.save()
+
+            # items = soup.find_all( class_="delivery-dishes-item")
+            else:
+                get_menu(soup, "delivery-dishes-item", restaurant)
 
 
 def get_menu(soup, className, restaurant):
@@ -337,8 +343,13 @@ def fullpage_screenshot(driver, id):
             time.sleep(0.5)
         time.sleep(1)
         # current_scroll = driver.execute_script(scroll)
-        robot = driver.find_element_by_xpath(".//*[@id='scrollLoadingPage']")
-        if not(robot) or count_scroll == 40:
+        try:
+            robot = driver.find_element_by_xpath(
+                ".//*[@id='scrollLoadingPage']")
+            if not(robot) or count_scroll == 40:
+                break
+            driver.execute_script("arguments[0].click();", robot)
+            time.sleep(2)
+
+        except:
             break
-        driver.execute_script("arguments[0].click();", robot)
-        time.sleep(2)
