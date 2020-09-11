@@ -4,10 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-flake8 = "*"
 mypy = "*"
 yapf = "*"
-autopep8 = "*"
+pep8 = "*"
+flake8 = "*"
 
 [packages]
 django = "*"
@@ -19,14 +19,13 @@ redis = "*"
 psycopg2-binary = "*"
 sentry-sdk = "*"
 pillow = "*"
+django-bower = "*"
+whitenoise = "*"
 beautifulsoup4 = "*"
 requests = "*"
 selenium = "*"
-diff-match-patch = "*"
-numpy = "*"
-opencv-contrib-python-headless = "*"
-django-bower = "*"
-whitenoise = "*"
+webdriver-manager = "*"
+lxml = "*"
 
 [requires]
-python_version = "3.6"
+python_version = "3.7"

@@ -117,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Ho_Chi_Minh'
 
 USE_I18N = True
 
@@ -155,19 +155,11 @@ BOWER_INSTALLED_APPS = (
     'jquery',
     'bootstrap#4.0.0',
     'sweetalert2',
-    'fontawesome',
+    'fontawesome#4.7.0',
     'chart.js',
     'popper.js'
 )
 
-# authentication
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    )
-}
-
-# config selenium
+# selenium
 WINDOW_SIZE = "1366,1366"
+ENABLE_OVERLAY_SCROLLBAR = "--enable-overlay-scrollbar"

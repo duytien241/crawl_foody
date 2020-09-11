@@ -1,31 +1,3 @@
-## [8.18.3](https://github.com/sweetalert2/sweetalert2/compare/v8.18.2...v8.18.3) (2019-10-09)
-
-
-### Bug Fixes
-
-* apply customClass only to visible input ([#1767](https://github.com/sweetalert2/sweetalert2/issues/1767)) ([98de5fb](https://github.com/sweetalert2/sweetalert2/commit/98de5fb009923d1885a2bb437deed7746820e058))
-
-## [8.18.2](https://github.com/sweetalert2/sweetalert2/compare/v8.18.1...v8.18.2) (2019-10-09)
-
-
-### Bug Fixes
-
-* **types:** getInput() returns HTMLInputElement ([#1766](https://github.com/sweetalert2/sweetalert2/issues/1766)) ([c9916da](https://github.com/sweetalert2/sweetalert2/commit/c9916da081c1dfdc48e02422b3af12aef306586d))
-
-## [8.18.1](https://github.com/sweetalert2/sweetalert2/compare/v8.18.0...v8.18.1) (2019-10-07)
-
-
-### Bug Fixes
-
-* get file result for multiple file type input ([#1759](https://github.com/sweetalert2/sweetalert2/issues/1759)) ([cf00614](https://github.com/sweetalert2/sweetalert2/commit/cf00614))
-
-# [8.18.0](https://github.com/sweetalert2/sweetalert2/compare/v8.17.6...v8.18.0) (2019-09-30)
-
-
-### Features
-
-* **scss:** add $swal2-close-button-font-family and $swal2-button-focus-background-color variables ([#1753](https://github.com/sweetalert2/sweetalert2/issues/1753)) ([bc1da42](https://github.com/sweetalert2/sweetalert2/commit/bc1da42))
-
 ## [8.17.6](https://github.com/sweetalert2/sweetalert2/compare/v8.17.5...v8.17.6) (2019-09-19)
 
 

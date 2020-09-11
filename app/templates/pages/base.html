@@ -45,23 +45,5 @@
 <script src="{% static 'chart.js/dist/Chart.min.js' %}"></script>
 <script src="{% static 'fontawesome/js/all.min.js' %}"></script>
 {% block script %} {% endblock %}
-<script>
-$(document).ready( function(){
-    
-    $('.overlay').click(function(){
-        document.getElementsByClassName("overlay")[0].style.display = "none";
-    });
-     $("#menu-toggle").click(function(e) {
-      e.preventDefault();
-        if($('.overlay').css('display') == 'none'){
-            $('.overlay').show();
-        }
-        else{
-            $('.overlay').hide();
-        }
-      
-    });
-});
-</script>
 </body>
 </html>

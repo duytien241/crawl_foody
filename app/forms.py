@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import PasswordResetForm, UserCreationForm
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 
@@ -15,7 +15,7 @@ class RegistrationForm(UserCreationForm):
         'class': 'form-control'}))
     email = forms.EmailField(required=True, widget=forms.EmailInput(attrs={
         'type': 'text',
-        'placeholder': 'Địa chỉ email',
+        'placeholder': 'Email',
         'class': 'form-control'}))
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={
         'type': 'password',
@@ -44,14 +44,3 @@ class RegistrationForm(UserCreationForm):
             user.username = self.cleaned_data['email']
             user.save()
         return user
-
-
-class EmailValidationOnForgotPassword(PasswordResetForm):
-
-    def clean_email(self):
-        email = self.cleaned_data['email']
-        if not User.objects.filter(email__iexact=email, is_active=True).exists():
-            raise ValidationError(
-                "Không tìm thấy địa chỉ email."
-            )
-        return email

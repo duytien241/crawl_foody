@@ -1,15 +1,13 @@
 from django.contrib import admin
-from .models import Address, DataCrawl, Changes
+from .models import Website
 
-@admin.register(Address)
-class AddressAdmin(admin.ModelAdmin):
-    list_display = ('id', 'address', 'typeAddress','active')
 
-@admin.register(DataCrawl)
-class DataCrawlAdmin(admin.ModelAdmin):
-    list_display = ('id','directions')
-
-@admin.register(Changes)
-class ChangeAdmin(admin.ModelAdmin):
-    list_display = ('id','source_old',)
 # Register your models here.
+class WebsiteAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'uri')
+    list_display_links = ('name', 'id')
+    search_fields = ('name', 'uri')
+    list_per_page = 20
+
+
+admin.site.register(Website, WebsiteAdmin)

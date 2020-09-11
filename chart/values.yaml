@@ -13,6 +13,10 @@ application:
   track: stable
   tier: web
   env: prod
+  migrateCommand:
+  initializeCommand:
+  secretName:
+  secretChecksum:
 service:
   enabled: true
   name: web
@@ -28,7 +32,7 @@ postgresql:
   persistence:
     enabled: false
 redis:
-  enabled: true
+  enabled: false
   redisPassword: "gitlab"
 
   resources:

@@ -75,16 +75,6 @@ import Swal from 'sweetalert2'
 const Swal = require('sweetalert2')
 ```
 
-Or with JS modules:
-
-```html
-<link rel="stylesheet" href="sweetalert2/dist/sweetalert2.css">
-
-<script type="module">
-  import Swal from 'sweetalert2/src/sweetalert2.js'
-</script>
-```
-
 It's possible to import JS and CSS separately, e.g. if you need to customize styles:
 
 ```js
@@ -180,7 +170,6 @@ Related community projects
 
 - [avil13/vue-sweetalert2](https://github.com/avil13/vue-sweetalert2) - Vue.js wrapper
 - [realrashid/sweet-alert](https://github.com/realrashid/sweet-alert) - Laravel 5 Package
-- [Basaingeal/Razor.SweetAlert2](https://github.com/Basaingeal/Razor.SweetAlert2) - Blazor Wrapper
 
 
 Collaborators
@@ -220,16 +209,15 @@ Big Thanks
 Backers
 -------
 
-[<img src="https://avatars2.githubusercontent.com/u/28631236?s=80&v=4" width="80">](https://flowcrypt.com/) | [<img src="https://sweetalert2.github.io/images/backers/sex-toy-education.png" width="80">](https://sextoyeducation.com/) | [<img src="https://sweetalert2.github.io/images/backers/PriceListo.png" width="80">](https://www.pricelisto.com/) | [<img src="https://sweetalert2.github.io/images/backers/loveloxy.png" width="80">](https://loveloxy.com/) | [![](https://avatars0.githubusercontent.com/u/5826089?v=4&s=80)](https://sheetjs.com/) | [![](https://avatars2.githubusercontent.com/u/12075795?v=4&s=80)](https://www.unique-p.ch) | [<img src="https://sweetalert2.github.io/images/backers/sextoycollective.jpg" width="80">](https://sextoycollective.com/) | [<img src="https://sweetalert2.github.io/images/plus.png" width="80">](DONATIONS.md#backers)
--|-|-|-|-|-|-|-
-[FlowCrypt](https://flowcrypt.com/) | [STED](https://sextoyeducation.com/) | [PriceListo](https://www.pricelisto.com/) | [LoveLoxy](https://www.loveloxy.com/) | [SheetJS LLC](https://sheetjs.com/) | [Unique-P GmbH](https://www.unique-p.ch) | [STC (NSFW)](https://sextoycollective.com/) | [Become a backer](DONATIONS.md#backers)
+[<img src="https://avatars2.githubusercontent.com/u/28631236?s=80&v=4" width="80">](https://flowcrypt.com/) | [<img src="https://sweetalert2.github.io/images/backers/sex-toy-education.png" width="80">](https://sextoyeducation.com/) | [<img src="https://sweetalert2.github.io/images/backers/PriceListo.png" width="80">](https://www.pricelisto.com/) | [![](https://avatars0.githubusercontent.com/u/5826089?v=4&s=80)](https://sheetjs.com/) | [![](https://avatars2.githubusercontent.com/u/12075795?v=4&s=80)](https://www.unique-p.ch) | [<img src="https://sweetalert2.github.io/images/backers/sextoycollective.jpg" width="80">](https://sextoycollective.com/) | [<img src="https://sweetalert2.github.io/images/plus.png" width="80">](DONATIONS.md#backers)
+-|-|-|-|-|-|-
+[FlowCrypt](https://flowcrypt.com/) | [STED](https://sextoyeducation.com/) | [PriceListo](https://www.pricelisto.com/) | [SheetJS LLC](https://sheetjs.com/) | [Unique-P GmbH](https://www.unique-p.ch) | [STC (NSFW)](https://sextoycollective.com/) | [Become a backer](DONATIONS.md#backers)
 
 Support and Donations
 ---------------------
 
 Has SweetAlert2 helped you create an amazing application? You can show your support by making a donation:
 
-- [GitHub Sponsors :heart:](https://github.com/users/limonte/sponsorship)
 - [PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=TKTWHJGUWLR7E)
 - Bitcoin: `16Z7RvFv7PsV3XzFvchYwPnRfw9KeLTZQJ`
 - Ether: `0x192096161eB2273f12b1cB4E31aBB09Bfc03a7F3`

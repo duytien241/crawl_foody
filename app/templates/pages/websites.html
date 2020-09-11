@@ -1,28 +1,20 @@
 {% extends "pages/base.html" %}
 {% block title %}Websites{% endblock  %}
 {% block active%}
-{% if not user.username %}
-    <form class="form-inline my-2 my-lg-0">
-    <a class="btn btn-outline-success my-2 my-sm-0 mr-3" href='/login'>Đăng nhập</a>
-    <a class="btn btn-outline-success my-2 my-sm-0 " href = '/register'>Đăng ký</a>
-    
-</form>
-{% else %}
 <div class="my-2 my-sm-0 mr-3 " href='#'>
     <img src="img/person.jpeg" alt="" class="avatar mr-2">
     <div class="dropdown d-inline-block ">
         <a class="btn btn-outline-success dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Welcome {{user.username}}
+            Welcome User
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="#">Profile</a>
-            <a class="dropdown-item" href = "{%url 'logout'%}">Logout</a>
+            <a class="dropdown-item" href="#">Logout</a>
         </div>
     </div>
 </div>
-{% endif %}
 {%endblock%}
 {% block content  %}
 <section class="websites">

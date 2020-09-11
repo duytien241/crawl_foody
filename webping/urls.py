@@ -14,11 +14,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import path
 from app import views
 from django.contrib.auth import views as auth_views
-from app.forms import EmailValidationOnForgotPassword
-from app.api import urls
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
@@ -29,29 +29,6 @@ urlpatterns = [
     path('login/', views.login, name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='/'),
          name="logout"),
-    path('password_reset/',
-         auth_views.PasswordResetView.as_view(
-             template_name='pages/password_reset.html',
-             form_class=EmailValidationOnForgotPassword,
-             email_template_name='pages/password_reset_email.html',
-             subject_template_name='pages/password_reset_subject.html'),
-         name='password_reset'),
-    path('password_reset/done',
-         auth_views.PasswordResetDoneView.as_view(
-             template_name='pages/password_reset_done.html'),
-         name='password_reset_done'),
-    path('password_reset_confirm//<uidb64>/<token>/',
-         auth_views.PasswordResetConfirmView.as_view(
-             template_name='pages/password_reset_confirm.html'),
-         name='password_reset_confirm'),
-    path('password_reset_complete/',
-         auth_views.PasswordResetCompleteView.as_view(
-             template_name='pages/password_reset_complete.html'),
-         name='password_reset_complete'),
+    path('password_reset/', views.password_reset, name='password_reset'),
     path('websites/', views.websites, name='websites'),
-    path('manageaddress/', views.manageNotificationAddress, name='manageaddress'),
-    path('manageaddress/<uuid:id>', views.manageNotificationAddressOfUrl, name='manageaddress'),
-    path('changes/<uuid:id>', views.viewChanges, name='changes'),
-    path('historycompare/<uuid:id>', views.viewHistoryCompare, name='history-changes'),
-    path('', include(urls)),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

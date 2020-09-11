@@ -29,33 +29,17 @@ spec:
         ports:
         - name: "{{ .Values.service.name }}"
           containerPort: {{ .Values.service.internalPort }}
+        {{- if .Values.application.secretName }}
+        envFrom:
+        - secretRef:
+            name: {{ .Values.application.secretName }}
+        {{- end }}
         env:
-        {{ if eq .Values.postgresql.enabled true }}
-        - name: DATABASE_URL
-          value: {{ .Values.application.database_url | quote }}
-        {{ else }}
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: database-url
-        {{ end }}
-        {{ if eq .Values.redis.enabled true }}
-        - name: REDIS_HOST
-          value: {{ template "webping.redis.fullname" . }}
-        - name: REDIS_PASSWD
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "webping.redis.fullname" . }}
-              key: redis-password
-        {{ else }}
-        - name: REDIS_URL
-          valueFrom:
-            secretKeyRef:
-              name: {{ template "fullname" . }}
-              key: redis-url
-        {{ end }}
         - name: WEBPING_ENV
           value:  {{ .Values.application.env }}
+        {{- if .Values.postgresql.enabled }}
+        - name: DATABASE_URL
+          value: {{ .Values.application.database_url | quote }}
+        {{- end }}
         resources:
 {{ toYaml .Values.resources | indent 12 }}

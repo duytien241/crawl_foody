@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from .forms import RegistrationForm
 from django.test import Client
+from .models import Website
+from app.utils import crawl_web
 # Create your tests here.
 
 
@@ -111,3 +113,16 @@ class login_logoutTest(TestCase):
         c.login(username='testcase@example.com', password='matkhau123')
         response = c.get('/logout/')
         self.assertEqual(response.status_code, 302)
+
+
+class crawl_website(TestCase):
+    def test_crawl(self):
+        # setup
+        try:
+            website = Website(name="tiki", uri="https://tiki.vn/dien-thoai-may-tinh-bang")
+            website.save()
+        except KeyError as key_error:
+            self.stderr.write(self.style.ERROR(f'Missing Key: "{key_error}"'))
+    # Test crawl website
+        source = crawl_web(website.id)
+        self.assertEqual(len(source) > 1, True)

@@ -191,7 +191,7 @@ declare module 'sweetalert2' {
     /**
      * Gets the input DOM node, this method works with input parameter.
      */
-    function getInput(): HTMLInputElement;
+    function getInput(): HTMLElement;
 
     /**
      * Disables the modal input. A disabled input element is unusable and un-clickable.
